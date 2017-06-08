@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Studio 54</title>
+	<style type="text/css">
+		
+		body {
+			background-image: url("niteclub.jpg");
+			background-size: cover;
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
+
+		img {
+			position: absolute;	
+			top: 50%;	
+		}
+
+		button {
+			position: absolute;
+			top: 90%;
+			left: 46%;
+			height: 60px;
+			width: 100px;
+			color: white;
+			background-color: red;
+			font-size: 15pt;
+		}
+
+		#dancingman {
+			height: 300px;
+			width: 250px;
+			right: -250px;
+		}
+
+		#dancinggirl {
+			height: 350px;
+			width: 200px;
+			left: -200px;
+		}
+
+		#disco {
+			height: 200px;
+			width: 200px;
+			left: 42%;
+			top: -600px;
+		}
+
+		#farley {
+			height: 300px;
+			width: 200px;
+			left: -400px;
+		}
+
+		#alien {
+			height: 300px;
+			width: 200px;
+			top: 55%;
+			right: -500px;
+		}
+
+	
+
+
+
+	</style>
+
+	<script type="text/javascript">
+		window.onload = function() {
+
+		//get the canvas
+		var canvas = document.getElementById("snow");
+		var c = canvas.getContext("2d");
+
+		//set canvas to window height and width
+		var w = window.innerWidth;
+		var h = window.innerHeight;
+		canvas.width = w;
+		canvas.height = h;
+
+		//snowflakes
+		var maxf = 100;
+		var flakes = [];
+
+		//loop thru the empty array and apply diff attr
+		for (var i = 0; i < maxf; i++){
+			flakes.push({
+					x: Math.random() * w,
+					y: Math.random() * h,
+					r: Math.random() * 5+2, //min of 2px max of 5px
+					d: Math.random() + 1 //density of the snowflakes
+
+			})
+		}
+
+		function draw() {
+
+			c.clearRect(0, 0, w, h); // clear screen
+			c.fillStyle = "yellow"; //color for any shapes
+			c.beginPath(); //draw a path for a shape
+			for (var i = 0; i < maxf; i++) {
+				var f = flakes[i];
+				c.moveTo(f.x, f.y);
+				c.arc(f.x, f.y, f.r, 0, Math.PI*2, true);
+			}
+			c.fill();
+			moveFlakes();
+		}
+
+		//animate the flakes
+
+		var angle = 0;
+
+		function moveFlakes() {
+			angle += 0.01;
+			for(var i = 0; i < maxf; i++) {
+				var f = flakes[i];
+				f.y += Math.pow(f.d, 2) + 1;
+				f.x += Math.sin(angle) * 2;
+
+				if(f.y > h) {
+					flakes[i] = {x: Math.random()*w, y:0, r: f.r, d: f.d};
+				}
+			}
+		}
+
+		setInterval(draw, 25);
+
+
+	}
+
+	function Party() {
+		var elem = document.getElementById("dancingman");
+		var elemOne = document.getElementById("dancinggirl");
+		var elemTwo = document.getElementById("disco");
+		var elemThree = document.getElementById("farley");
+		var elemFour = document.getElementById("alien");
+		var posX = -250;
+		var posA = -200;
+		var posB = -600;
+		var posF = -400;
+		var posG = -500;
+		var int = setInterval(frame, 5);
+		function frame() {
+			if (posX !== 350){
+				posX++;
+				posA++;
+				posB++;
+				posF++;
+				posG++;
+				elem.style.right = posX + 'px';
+				elemOne.style.left = posA + 'px';
+				elemTwo.style.top = posB + 'px';
+				elemThree.style.left = posF + 'px';
+				elemFour.style.right = posG + 'px';
+			} else {
+				clearInterval(id);
+			}
+		}	
+	}
+
+	var track = new Audio();
+	track.src = "LeFreak.mp3";
+
+	function playSound() {
+		track.play();
+	}
+
+
+
+	</script>
+</head>
+<body>
+
+<canvas id="snow"></canvas>	
+<img src="danceman.gif" id="dancingman">
+<img src="dancegirl.gif" id="dancinggirl">
+<img src="discob.webp" id="disco">
+<img src="farley.gif" id="farley">	
+<img src="alien.gif" id="alien">
+
+
+<button onclick="playSound(); Party()">Let's Party!</button>
+
+</body>
+</html>
